@@ -1,0 +1,27 @@
+<div class="company-wrapper" *ngIf="company$ | async as company">
+  <mat-card class="company-card">
+    <mat-card-header>
+      <mat-card-title>Компания {{ company.fullName }} ({{ company.shortName }})</mat-card-title>
+      <mat-card-subtitle>No. {{ company.uid }} </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <tree-view [dataSource]="company | companyToTreeViewInput" (change)="onSelectionChange($event)"></tree-view>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="onSelectNodes()">Выбрать</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <div class="selection-result" *ngIf="showResult">
+    <mat-card class="company-card">
+      <mat-card-header>
+        <mat-card-title>Выбранные организации:</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngFor="let node of selectedNodes | keyvalue">
+          {{ node.key }}: {{ node.value.length ? (node.value | json) : "не выбрано" }}
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
